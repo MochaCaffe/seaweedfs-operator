@@ -95,6 +95,20 @@ func (r *SeaweedReconciler) createAllIngress(m *seaweedv1.Seaweed) *networkingv1
 		})
 	}
 
+	if m.Spec.IngressConfig != nil {
+
+		if len(m.Spec.IngressConfig.IngressClassName) > 0 {
+			dep.Spec.IngressClassName = &m.Spec.IngressConfig.IngressClassName
+		}
+		if m.Spec.IngressConfig.UseTLS {
+			dep.Spec.TLS = []networkingv1.IngressTLS{
+				{
+					Hosts:      []string{"*." + *m.Spec.HostSuffix},
+					SecretName: m.Spec.IngressConfig.SecretName,
+				},
+			}
+		}
+	}
 	// Set master instance as the owner and controller
 	if err := ctrl.SetControllerReference(m, dep, r.Scheme); err != nil {
 		log.Error(err, "set controller reference for Ingress failed")

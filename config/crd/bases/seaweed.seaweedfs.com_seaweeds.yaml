@@ -2420,6 +2420,17 @@ spec:
                   type: object
                   x-kubernetes-map-type: atomic
                 type: array
+              ingressConfig:
+                properties:
+                  ingressClassName:
+                    type: string
+                  secretName:
+                    description: Set wildcard certName to use
+                    type: string
+                  useTLS:
+                    description: Enable TLS spec in ingress
+                    type: boolean
+                type: object
               master:
                 description: Master
                 properties:

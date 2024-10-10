@@ -101,6 +101,8 @@ type SeaweedSpec struct {
 
 	// Ingresses
 	HostSuffix *string `json:"hostSuffix,omitempty"`
+
+	IngressConfig *IngressConfigSpec `json:"ingressConfig,omitempty"`
 }
 
 // SeaweedStatus defines the observed state of Seaweed
@@ -255,6 +257,31 @@ type ServiceSpec struct {
 
 	// ClusterIP is the clusterIP of service
 	ClusterIP *string `json:"clusterIP,omitempty"`
+}
+
+type IngressConfigSpec struct {
+	IngressClassName string `json:"ingressClassName,omitempty"`
+
+	// Enable TLS spec in ingress
+	UseTLS bool `json:"useTLS,omitempty"`
+
+	// Set wildcard certName to use
+	SecretName string `json:"secretName,omitempty"`
+}
+
+type S3Auth struct {
+	// Enable S3 Authentication frontend
+	Enable bool `json:"enable,omitempty"`
+
+	// Set wildcard certName to use
+	Identities []*S3Identity `json:"identities,omitempty"`
+}
+
+// A list of S3 credentials to create
+type S3Identity struct {
+	Name string `json:"name,omitempty"`
+
+	Actions []string `json:"actions,omitempty"`
 }
 
 type PersistenceSpec struct {
